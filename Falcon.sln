@@ -1,0 +1,27 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{136014AC-DB68-4F3D-9ADE-0BE8C4EBF2B2}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Falcon", "src\Falcon\Falcon.fsproj", "{F62860E9-9020-4C14-9841-E7798A0C3285}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F62860E9-9020-4C14-9841-E7798A0C3285}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F62860E9-9020-4C14-9841-E7798A0C3285}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F62860E9-9020-4C14-9841-E7798A0C3285}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F62860E9-9020-4C14-9841-E7798A0C3285}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F62860E9-9020-4C14-9841-E7798A0C3285} = {136014AC-DB68-4F3D-9ADE-0BE8C4EBF2B2}
+	EndGlobalSection
+EndGlobal
