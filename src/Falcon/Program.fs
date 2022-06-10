@@ -3,6 +3,8 @@ open System.Diagnostics
 open System
 open System.IO
 open Suave
+open Suave.Operators
+open Suave.Filters
 open FSharp.Compiler.Symbols
 open System.Threading
 
@@ -15,6 +17,19 @@ let getValuesAsString (fsiSession: FsiEvaluationSession) =
         + " = "
         + v.Value.ReflectionValue.ToString())
     |> String.concat "\n"
+
+let getTypesAsString (fsiSession: FsiEvaluationSession) =
+    fsiSession.CurrentPartialAssemblySignature.Entities
+    |> Seq.collect (fun e -> e.NestedEntities)
+    |> Seq.map (fun e -> e.FullName)
+    |> String.concat "\n"
+
+let router fsiSession =
+    GET
+    >=> choose [ path "/values"
+                 >=> (warbler (fun ctx -> (Successful.OK(getValuesAsString fsiSession))))
+                 path "/types"
+                 >=> (warbler (fun ctx -> (Successful.OK(getTypesAsString fsiSession)))) ]
 
 [<EntryPoint>]
 let main argv =
@@ -31,8 +46,9 @@ let main argv =
     let cts = new CancellationTokenSource()
     let conf = { defaultConfig with cancellationToken = cts.Token }
 
-    let _listening, server =
-        startWebServerAsync conf (warbler (fun ctx -> (Successful.OK(getValuesAsString fsiSession))))
+
+
+    let _listening, server = startWebServerAsync conf (router fsiSession)
 
     Async.Start(server, cts.Token)
 
