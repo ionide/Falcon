@@ -40,7 +40,7 @@ The library is available under [MIT license](LICENSE.md), which allows modificat
 
 ## Our Sponsors
 
-You can support Ionide development on [Open Collective](https://opencollective.com/ionide). [![Open Collective](https://opencollective.com/ionide/donate/button.png?color=blue)](https://opencollective.com/ionide)
+You can support Ionide development on [Open Collective](https://opencollective.com/ionide). 
 
 ### Partners
 
