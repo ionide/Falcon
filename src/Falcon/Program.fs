@@ -7,29 +7,44 @@ open Suave.Operators
 open Suave.Filters
 open FSharp.Compiler.Symbols
 open System.Threading
+open Falcon
+
+type ValueResponse =
+    { Name: string
+      Type: string
+      Value: string }
 
 let getValuesAsString (fsiSession: FsiEvaluationSession) =
     fsiSession.GetBoundValues()
     |> List.map (fun v ->
-        v.Name
-        + ": "
-        + v.Value.FSharpType.Format FSharpDisplayContext.Empty
-        + " = "
-        + v.Value.ReflectionValue.ToString())
-    |> String.concat "\n"
+        { Name = v.Name
+          Type = v.Value.FSharpType.Format FSharpDisplayContext.Empty
+          Value = v.Value.ReflectionValue.ToString() })
+    |> List.toArray
+
+type TypeResponse = { Name: string; Signature: string }
 
 let getTypesAsString (fsiSession: FsiEvaluationSession) =
     fsiSession.CurrentPartialAssemblySignature.Entities
     |> Seq.collect (fun e -> e.NestedEntities)
-    |> Seq.map (fun e -> e.FullName)
-    |> String.concat "\n"
+    |> Seq.map (fun e ->
+        { Name = e.DisplayName
+          Signature = SignatureFormatter.getEntitySignature FSharpDisplayContext.Empty e })
+    |> Seq.toArray
 
 let router fsiSession =
     GET
     >=> choose [ path "/values"
-                 >=> (warbler (fun ctx -> (Successful.OK(getValuesAsString fsiSession))))
+                 >=> (warbler (fun ctx ->
+                     (getValuesAsString fsiSession)
+                     |> Json.toJson
+                     |> Successful.ok))
                  path "/types"
-                 >=> (warbler (fun ctx -> (Successful.OK(getTypesAsString fsiSession)))) ]
+                 >=> (warbler (fun ctx ->
+                     (getTypesAsString fsiSession
+                      |> Json.toJson
+                      |> Successful.ok))) ]
+    >=> Writers.setHeader "Content-Type" "application/json; charset=UTF-8"
 
 [<EntryPoint>]
 let main argv =
