@@ -4,4 +4,5 @@ storage: none
 framework: net6.0
 
 nuget FSharp.Compiler.Service
+nuget ReadLine
 nuget Suave
