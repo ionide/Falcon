@@ -65,6 +65,7 @@ NUGET
       System.Security.AccessControl (>= 5.0)
       System.Security.Principal.Windows (>= 5.0)
     Microsoft.Win32.SystemEvents (6.0.1)
+    ReadLine (2.0.1)
     runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl (4.3.3)
     runtime.debian.9-x64.runtime.native.System.Security.Cryptography.OpenSsl (4.3.3)
     runtime.fedora.23-x64.runtime.native.System.Security.Cryptography.OpenSsl (4.3.3)
