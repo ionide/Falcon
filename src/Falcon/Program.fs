@@ -147,7 +147,20 @@ let main argv =
             |> Async.RunSynchronously))
 
     let cts = new CancellationTokenSource()
-    let conf = { defaultConfig with cancellationToken = cts.Token }
+
+    let emptyLogger =
+        { new Logging.Logger with
+            member this.log (arg1: Logging.LogLevel) (arg2: Logging.LogLevel -> Logging.Message) : unit = ()
+
+            member this.logWithAck (arg1: Logging.LogLevel) (arg2: Logging.LogLevel -> Logging.Message) : Async<unit> =
+                Async.result ()
+
+            member this.name: string [] = [| "" |] }
+
+    let conf =
+        { defaultConfig with
+            cancellationToken = cts.Token
+            logger = emptyLogger }
 
     let _listening, server = startWebServerAsync conf (router fsiSession)
 
